@@ -1,0 +1,12 @@
+c:\GiTs\Akka\FirstActor\bin\Debug\FirstActor.exe.config
+c:\GiTs\Akka\FirstActor\obj\Debug\FirstActor.csprojResolveAssemblyReference.cache
+c:\GiTs\Akka\FirstActor\bin\Debug\FirstActor.exe
+c:\GiTs\Akka\FirstActor\bin\Debug\FirstActor.pdb
+c:\GiTs\Akka\FirstActor\bin\Debug\Akka.dll
+c:\GiTs\Akka\FirstActor\bin\Debug\Newtonsoft.Json.dll
+c:\GiTs\Akka\FirstActor\bin\Debug\System.Collections.Immutable.dll
+c:\GiTs\Akka\FirstActor\bin\Debug\Akka.xml
+c:\GiTs\Akka\FirstActor\bin\Debug\Newtonsoft.Json.xml
+c:\GiTs\Akka\FirstActor\bin\Debug\System.Collections.Immutable.xml
+c:\GiTs\Akka\FirstActor\obj\Debug\FirstActor.exe
+c:\GiTs\Akka\FirstActor\obj\Debug\FirstActor.pdb
