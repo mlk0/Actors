@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,14 @@ namespace FirstActor
                 Sender.Tell(String.Format("Ping is : PingSendDateTime : {0} - DateTime.Now.Ticks : {1}", m.PingSendDateTime.Ticks, DateTime.Now.Ticks));
             });
 
+            
+
+        }
+
+
+        protected override void Unhandled(object message)
+        {
+            Console.WriteLine("I got instance of type : {0}", message.GetType());
         }
 
         private void HandleSomeMessage(SomeMessage someMessage)
