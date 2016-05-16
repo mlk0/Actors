@@ -50,72 +50,6 @@ namespace PassingMessages
 
 
 
-        public class TodlerActor : ReceiveActor
-        {
-            private int _todlersCount = 0;
-            public TodlerActor()
-            {
-                Receive<AddOneMore>(m => { Sender.Tell(new TodlerCount(++_todlersCount)); });
-            }
-        }
-
-        public class TeenActor : ReceiveActor
-        {
-            private int _teenCount = 0;
-            public TeenActor()
-            {
-                Receive<AddOneMore>(m => { Sender.Tell(new TeenCount(++_teenCount)); });
-            }
-        }
-
-
-        public class KidAgeRouterActor : ReceiveActor
-        {
-            private readonly IActorRef _todlerActor;
-            private readonly IActorRef _teenActor;
-
-            public KidAgeRouterActor()
-            {
-                _todlerActor = Context.ActorOf<TodlerActor>("todlerActor");
-                _teenActor = Context.ActorOf<TeenActor>("teenActor");
-
-                Receive<AddOneMore>(m => AddOneMoreHandler(m));
-            }
-
-            private void AddOneMoreHandler(AddOneMore addOneMore)
-            {
-                var now = DateTime.Now;
-                var age = now.Subtract(addOneMore.Birthday).TotalDays/365;
-                if (age <= 4)
-                {
-                    _todlerActor.Forward(addOneMore);
-                }
-                else
-                {
-                    _teenActor.Forward(addOneMore);
-                }
-
-            }
-        }
-
-
-        public class SummaryActor : ReceiveActor
-        {
-            private readonly IActorRef _kidAgeRouterActor;
-
-            public SummaryActor()
-            {
-                _kidAgeRouterActor = Context.ActorOf<KidAgeRouterActor>("kidAgeRouterActor");
-
-                Receive<AddOneMore>(m =>
-                {
-                    _kidAgeRouterActor.Tell(m, Self);
-                });
-
-                Receive<TodlerCount>(m => Console.WriteLine("Current TodlerCount : {0}", m.Count));
-                Receive<TeenCount>(m => Console.WriteLine("Current TeenCount : {0}", m.Count));
-            }
-        }
 
 
 
@@ -182,12 +116,7 @@ namespace PassingMessages
 
         static void Main(string[] args)
         {
-            var kidsCounterSystem = ActorSystem.Create("kidsCounter");
-            var summaryActorProxy = kidsCounterSystem.ActorOf<SummaryActor>("summaryActor");
-            summaryActorProxy.Tell(new AddOneMore(DateTime.Now.AddYears(-2)));
-            summaryActorProxy.Tell(new AddOneMore(DateTime.Now.AddYears(-12)));
-            summaryActorProxy.Tell(new AddOneMore(DateTime.Now.AddYears(-3)));
-            summaryActorProxy.Tell(new AddOneMore(DateTime.Now.AddYears(-13)));
+
 
 
 
@@ -306,34 +235,5 @@ namespace PassingMessages
         }
     }
 
-    internal class AddOneMore
-    {
-        public DateTime Birthday { get; private set; }
 
-        public AddOneMore(DateTime birthday)
-        {
-            Birthday = birthday;
-        }
-    }
-
-    internal class TodlerCount
-    {
-        public int Count { get; private set; }
-
-        public TodlerCount(int todlerCount)
-        {
-            Count = todlerCount;
-        }
-    }
-
-
-    internal class TeenCount
-    {
-        public int Count { get; private set; }
-
-        public TeenCount(int todlerCount)
-        {
-            Count = todlerCount;
-        }
-    }
 }
